@@ -3,6 +3,8 @@ package com.iut.as2021.main;
 import com.iut.as2021.interfaces.IMaths;
 import com.iut.as2021.mathematics.Maths;
 import com.iut.as2021.exceptions.MathsExceptions;
+import com.iut.as2021.tools.IutTools;
+import com.iut.as2021.metier.Calculer;
 
 public class StartTestMaths {
 
@@ -33,6 +35,15 @@ public class StartTestMaths {
         System.out.println(maths.division(-56, -8));
         
         System.out.println("\nLa division par 0");
-        System.out.println(maths.division(56, 0));
+        //System.out.println(maths.division(56, 0));
+        
+
+        
+        Calculer calculer = new Calculer(maths);
+        String expressionTest = "-2+3";
+        int index = IutTools.searchOperator(expressionTest);
+        System.out.println("Nous testons -2 + 3 = " + calculer.run(expressionTest));
+        
 	}
+	
 }
