@@ -14,6 +14,8 @@ public class MathsTest {
 	@Before
 	public void setUp() {
 		this.maths = new Maths();
+		this.mathsMock = Mockito.mock(Maths.class);
+		Mockito.when(mathsMock.addition(anyInt(), anyInt())).thenReturn(7);
 	}
 
 	@Test(expected = MathsExceptions.class)
@@ -21,7 +23,7 @@ public class MathsTest {
 		try {
 			maths.division(4, 0);
 		} catch (MathsExceptions e) {
-			Assert.assertEquals(e.getMessage(), "Division par zéro impossible");
+			Assert.assertEquals(e.getMessage(), "Division par zero impossible");
 			throw e;
 		}
 	}
