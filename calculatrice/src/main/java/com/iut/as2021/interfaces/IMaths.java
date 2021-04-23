@@ -1,0 +1,14 @@
+package com.iut.as2021.interfaces;
+
+import com.iut.as2021.exceptions.*;
+
+public interface IMaths {
+
+    int addition(int a, int b);
+
+    int soustraction(int a, int b);
+
+    int multiplication(int a, int b);
+
+    double division(int a, int b) throws MathsExceptions;
+}
