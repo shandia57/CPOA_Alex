@@ -14,6 +14,7 @@ public class IutTools {
 	}
 	
 	public static int searchOperator(String expression) {
+		
 		EOperation[] operations = EOperation.values();
 		for(int i = 1; i < expression.length(); i++) {
 			char charact = expression.charAt(i);

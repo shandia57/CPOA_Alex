@@ -1,10 +1,23 @@
 package com.iut.as2021.metier;
 
-import com.iut.as2021.enumerations.EOperation;
-import com.iut.as2021.interfaces.*;
-import com.iut.as2021.metier.*;
-import com.iut.as2021.exceptions.*;
+import static com.iut.as2021.enumerations.EOperation.ADDITION;
+import static com.iut.as2021.enumerations.EOperation.DIVISION;
+import static com.iut.as2021.enumerations.EOperation.INCONNUE;
+import static com.iut.as2021.enumerations.EOperation.MULTIPLICATION;
+import static com.iut.as2021.enumerations.EOperation.SOUSTRACTION;
 
+import com.iut.as2021.enumerations.EOperation;
+import com.iut.as2021.exceptions.MathsExceptions;
+import com.iut.as2021.interfaces.IMaths;
+import com.iut.as2021.mathematics.Maths;
+import com.iut.as2021.tools.IutTools;
+
+/**
+ * Classe rÃ©cursive permettant de crÃ©er un arbre binaire d'opÃ©rations.
+ * 
+ * @author stephane.joyeux
+ *
+ */
 public class MathResultat {
 
 	private EOperation operation;
@@ -21,7 +34,10 @@ public class MathResultat {
 	}
 
 	public double getValue() throws MathsExceptions {
-		return 0;
+		if (INCONNUE.equals(operation)) {
+			return Integer.valueOf(expression);
+		}
+		return calculate();
 	}
 
 	public MathResultat getLeftExpression() {
@@ -32,11 +48,64 @@ public class MathResultat {
 		return rightExpression;
 	}
 
-	public MathResultat(String expression) {
-		
+	public MathResultat(String expression) throws MathsExceptions {
+		if (expression == null || expression.isEmpty()) {
+			throw new MathsExceptions("Expression est vide");
+		}
+		this.operation = INCONNUE;
+		this.expression = expression;
+		switchLeftAndRightExpression();
+		this.maths = new Maths();
 	}
-	
-	public double calculate () {
+
+	protected double calculate() throws MathsExceptions {
+		if (!INCONNUE.equals(operation)) {
+			double leftValue = leftExpression.getValue();
+			double rigthValue = rightExpression.getValue();
+			switch (operation) {
+			case MULTIPLICATION:
+				return maths.multiplication((int) leftValue, (int) rigthValue);
+			case DIVISION:
+				return maths.division((int) leftValue, (int) rigthValue);
+			case ADDITION:
+				return maths.addition((int) leftValue, (int) rigthValue);
+			case SOUSTRACTION:
+				return maths.soustraction((int) leftValue, (int) rigthValue);
+			default:
+				return 0;
+			}
+		}
+		return 0;
+	}
+
+	private void switchLeftAndRightExpression() throws MathsExceptions {
+		int pos = getPosition();
+		if (!INCONNUE.equals(operation) && pos > 0) {
+			leftExpression = new MathResultat(IutTools.getLeftExpression(expression, pos));
+			rightExpression = new MathResultat(IutTools.getRightExpression(expression, pos));
+		}
+	}
+
+	private int getPosition() {
+		int pos = getPositionFromOperation(ADDITION);
+		if (pos <= 0) {
+			pos = getPositionFromOperation(SOUSTRACTION);
+		}
+		if (pos <= 0) {
+			pos = getPositionFromOperation(MULTIPLICATION);
+		}
+		if (pos <= 0) {
+			pos = getPositionFromOperation(DIVISION);
+		}
+		return pos;
+	}
+
+	private int getPositionFromOperation(EOperation operation) {
+		int pos = this.expression.indexOf(operation.getOperateur());
+		if (pos > 0) {
+			this.operation = operation;
+			return pos;
+		}
 		return 0;
 	}
 }
