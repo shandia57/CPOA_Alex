@@ -13,7 +13,7 @@ import com.iut.as2021.mathematics.Maths;
 import com.iut.as2021.tools.IutTools;
 
 /**
- * Classe rÃ©cursive permettant de crÃ©er un arbre binaire d'opÃ©rations.
+ * Classe récursive permettant de créer un arbre binaire d'opérations.
  * 
  * @author stephane.joyeux
  *
@@ -70,7 +70,7 @@ public class MathResultat {
 			case ADDITION:
 				return maths.addition((int) leftValue, (int) rigthValue);
 			case SOUSTRACTION:
-				return maths.soustraction((int) leftValue, (int) rigthValue);
+				return maths.soustration((int) leftValue, (int) rigthValue);
 			default:
 				return 0;
 			}

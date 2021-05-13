@@ -15,11 +15,10 @@ public class MathResultatTest {
 		resultat = new MathResultat("2 + 3");
 		assertEquals(resultat.calculate(), 5, 2);
 	}
-	
 
 	@Test(expected = MathsExceptions.class)
 	public void testExpressionSimpleAdditionExpressionErronnee() throws MathsExceptions {
-		resultat = new MathResultat("2 + 3 +  ");
+		resultat = new MathResultat("2 + 3 + ");
 		assertEquals(resultat.calculate(), 5, 2);
 	}
 
@@ -49,7 +48,7 @@ public class MathResultatTest {
 
 	@Test
 	public void testExpressionSimpleDivision() throws MathsExceptions {
-		resultat = new MathResultat("8 / 2	");
+		resultat = new MathResultat("8 / 2");
 		assertEquals(resultat.calculate(), 4, 2);
 	}
 
@@ -72,21 +71,3 @@ public class MathResultatTest {
 			throw e;
 		}
 	}
-	
-	// NOUVEAU TEST à partir du 24/04/2021
-	
-	
-	// FAUX
-	@Test
-	public void testExpressionSansOperateur() throws MathsExceptions {
-		resultat = new MathResultat("23");
-		assertEquals(resultat.calculate(), 23, 2);
-	}
-	
-	//
-	@Test
-	public void testExpression() throws MathsExceptions {
-		resultat = new MathResultat("");
-		assertEquals(resultat.calculate(), 23, 2);
-	}
-}
