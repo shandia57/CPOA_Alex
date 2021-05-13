@@ -71,3 +71,4 @@ public class MathResultatTest {
 			throw e;
 		}
 	}
+}

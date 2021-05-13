@@ -70,7 +70,7 @@ public class MathResultat {
 			case ADDITION:
 				return maths.addition((int) leftValue, (int) rigthValue);
 			case SOUSTRACTION:
-				return maths.soustration((int) leftValue, (int) rigthValue);
+				return maths.soustraction((int) leftValue, (int) rigthValue);
 			default:
 				return 0;
 			}
