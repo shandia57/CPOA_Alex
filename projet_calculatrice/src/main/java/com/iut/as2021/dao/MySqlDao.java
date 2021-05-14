@@ -2,58 +2,112 @@ package com.iut.as2021.dao;
 
 import java.util.List;
 import java.sql.Connection;
-//import com.iut.as2021.dao.Connexion;
+// import com.iut.as2021.dao.Connexion;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 import com.iut.as2021.metier.MathResultat;
 
 public class MySqlDao implements IDaoMathResult {
 
-	@Override
-	public MathResultat readyById(int i) {
-		// TODO Auto-generated method stub
-		return null;
+	private static MySqlDao instance;
+
+	private MySqlDao(){}
+
+	public static MySqlDao getDAOInstance(){
+		if(instance == null){
+			instance = new MySqlDao();
+		}
+		return instance;
 	}
 
 	@Override
-	public List<MathResultat> getAll() {
-		String sql = "select * from operation";
-		Connection co = Connexion.getConnexion();
+	public MathResultat readyById(int i) throws Exception{
+		MathResultat exp = null;
+
+		String sql = "select calcul from operation where id =?;";
+
+		Connection con = Connexion.getInstance().getConnexion();
+
+		PreparedStatement requete = con.prepareStatement(sql);
+		requete.setInt(1, i);
+		ResultSet res = requete.executeQuery();
+		if(res.next()){
+			exp = new MathResultat(res.getString("expression"));
+			exp.setId(i);
+		}
+
+		return exp;
+	}
+
+	@Override
+	public List<MathResultat> getAll() throws SQLException {
+		String sql = "SELECT * FROM operation";
+        Connection con = Connexion.getInstance().getConnexion();
 		
-		Statement requete = co.createStatement();
-		ResultSet res = requete.executeQuery(sql);
-		// String sql = "select * from etudiant";
-        // Connection con = Connexion.getConnexion();
-        
-        // Statement requete = con.createStatement();
-        // ResultSet res = requete.executeQuery(sql);
-		// Statement statement = co.createStatement();
-        // ResultSet resultSet = statement.executeQuery("SELECT * FROM operation");
-        
-        // while(resultSet.next()) {
-        //     System.out.println("nom : " + resultSet.getString("nom"));
-        // }
+		PreparedStatement requete = con.prepareStatement(sql);
+		ResultSet res = requete.executeQuery();
+		
+		while(res.next()) {
+			System.out.println("operation : " + res.getString("calcul"));
+		}
 		return null;
 	}
 	
-		@Override
-		public boolean create(MathResultat object) {
-			// TODO Auto-generated method stub
-			return false;
-		}
-
 	@Override
-	public boolean update(MathResultat object) {
-		// TODO Auto-generated method stub
+	public boolean create(MathResultat object) throws Exception{
+		String sql = "INSERT INTO operation (expression) VALUES (?) ";
+		Connection con = Connexion.getInstance().getConnexion();
+		PreparedStatement requete = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+		requete.setString(1, object.getMathResult());
+
+		int nbLignes = requete.executeUpdate();
+		ResultSet res = requete.getGeneratedKeys();
+		if (res.next()){
+			object.setId(res.getInt(1));
+		}
+		return nbLignes==1;
+	}
+	
+	@Override
+	public boolean update(MathResultat object) throws Exception{
+		String sql = "UPDATE operation ACT expression=? WHERE id=?;";
+		Connection con = Connexion.getInstance().getConnexion();
+		PreparedStatement requete = con.prepareStatement(sql);
+		requete.setString(1, object.getMathResult());
+		requete.setInt(object.getId(), 2);
+		
+		int nbLignes = requete.executeUpdate(); 
+		return nbLignes==1;
+	}
+	
+	@Override
+	public boolean delete(MathResultat object) throws Exception{
+		String sql = "DELETE FROM operation WHERE id=?;";
+		Connection con = Connexion.getInstance().getConnexion();
+		PreparedStatement requete = con.prepareStatement(sql);
+		requete.setInt(1, object.getId());
+		int nbLignes = requete.executeUpdate();
+		//! PAS FINI
 		return false;
 	}
 
-	@Override
-	public boolean delete(MathResultat object) {
-		// TODO Auto-generated method stub
-		return false;
+	public MathResultat getLast() throws Exception{
+		MathResultat calcul =null;
+
+		String sql = "SELECT * FROM operation WHERE id IN(select MAX(id) from operation;";
+
+		Connection con = Connexion.getInstance().getConnexion();
+
+		PreparedStatement requete = con.prepareStatement(sql);
+		ResultSet res = requete.executeQuery();
+		if (res.next()){
+			calcul = new MathResultat(res.getString("calcul"));
+			calcul.setId(res.getInt("id"));
+		}
+		return calcul;
 	}
 
 }

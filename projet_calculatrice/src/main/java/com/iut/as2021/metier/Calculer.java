@@ -1,5 +1,6 @@
 package com.iut.as2021.metier;
 
+import com.iut.as2021.exceptions.MathsExceptions;
 import com.iut.as2021.interfaces.IMaths;
 
 public class Calculer {
@@ -10,46 +11,36 @@ public class Calculer {
         return maths;
     }
 
-    public void setMaths(IMaths maths) {
-        this.maths = maths;
+    public double addition(String expression, int signe){
+        String left = getLeftExpression(expression, signe);
+        String right = getRightExpression(expression, signe);
+        return maths.addition(Integer.valueOf(left), Integer.valueOf(right));
+    }
+        
+    public double soustraction(String expression, int signe){
+        String left = getLeftExpression(expression, signe);
+        String right = getRightExpression(expression, signe);
+        return maths.soustraction(Integer.valueOf(left), Integer.valueOf(right));
+    }
+        
+    public double multiplication(String expression, int signe){
+        String left = getLeftExpression(expression, signe);
+        String right = getRightExpression(expression, signe);
+        return maths.multiplication(Integer.valueOf(left), Integer.valueOf(right));
+    }
+        
+    public double division(String expression, int signe) throws Exception{
+        String left = getLeftExpression(expression, signe);
+        String right = getRightExpression(expression, signe);
+        return maths.division(Integer.valueOf(left), Integer.valueOf(right));
     }
 
-    public Calculer(IMaths maths) {
-        this.setMaths(maths);
+    private String getRightExpression(String expression, int posSigne) {
+        return expression.substring(posSigne + 1).trim();
     }
 
-    public double run(String expression) {
-        int pos = 0;
-        // ----------------------------------------------
-        int posSigneAddition = expression.indexOf("+");
-        boolean addition = (posSigneAddition > 0);
-        if (addition) {
-            pos = posSigneAddition;
-        }
-        // ------------------------------ CODE TRES DIRTY
-        int posSigneSoustraction = expression.indexOf("-");
-        boolean soustraction = (posSigneSoustraction > 0);
-        if (soustraction) {
-            pos = posSigneSoustraction;
-        }
-        // ------------------------------ CODE TRES DIRTY
-        String left = getLeftExpression(expression, pos);
-        String right = getRightExpression(expression, pos);
-        if (addition) {
-            return maths.addition(Integer.valueOf(left), Integer.valueOf(right));
-        }
-        if (soustraction) {
-            return maths.soustraction(Integer.valueOf(left), Integer.valueOf(right));
-        }
-        return maths.multiplication(1, 2);
-    }
-
-    private String getRightExpression(String expression, int posSigneAddition) {
-        return expression.substring(posSigneAddition + 1).trim();
-    }
-
-    private String getLeftExpression(String expression, int posSigneAddition) {
-        return expression.substring(0, posSigneAddition).trim();
+    private String getLeftExpression(String expression, int posSigne) {
+        return expression.substring(0, posSigne).trim();
     }
 
 }

@@ -1,17 +1,20 @@
 package com.iut.as2021.dao;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public interface IDao<T> {
 
-	T readyById(int i);
+	T readyById(int i) throws Exception;
 
-	List<T> getAll();
+	List<T> getAll() throws SQLException;
 
-	boolean update(T object);
+	boolean update(T object) throws Exception;
 
-	boolean create(T object);
+	boolean create(T object) throws Exception;
 
-	boolean delete(T object);
+	boolean delete(T object) throws Exception;
+
+	T getLast() throws Exception;
 
 }

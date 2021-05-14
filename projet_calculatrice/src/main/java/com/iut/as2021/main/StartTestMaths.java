@@ -41,7 +41,7 @@ public class StartTestMaths {
         
         Calculer calculer = new Calculer(maths);
         String expressionTest = "-2+3";
-        int index = IutTools.searchOperator(expressionTest);
+        // int index = IutTools.searchOperator(expressionTest);
         System.out.println("Nous testons -2 + 3 = " + calculer.run(expressionTest));
         
 	}
