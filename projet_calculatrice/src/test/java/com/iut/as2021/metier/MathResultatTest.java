@@ -13,6 +13,7 @@ public class MathResultatTest {
 	@Test
 	public void testExpressionSimpleAddition() throws MathsExceptions {
 		resultat = new MathResultat("2 + 3");
+		
 		assertEquals(resultat.calculate(), 5, 2);
 	}
 
@@ -71,4 +72,11 @@ public class MathResultatTest {
 			throw e;
 		}
 	}
+	
+	
+	
+	
+	
+	
+	
 }

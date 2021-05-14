@@ -5,11 +5,16 @@ import com.iut.as2021.mathematics.Maths;
 import com.iut.as2021.exceptions.MathsExceptions;
 import com.iut.as2021.tools.IutTools;
 import com.iut.as2021.metier.Calculer;
+import com.iut.as2021.metier.MathResultat;
 
 public class StartTestMaths {
-
+	
+	
 	public static void main(String[] args) throws MathsExceptions {
 		IMaths maths = new Maths();
+		
+		MathResultat resultat;
+		
 		System.out.println("Les additions");
         System.out.println(maths.addition(7, 8));
         System.out.println(maths.addition(7, -8));
@@ -39,11 +44,7 @@ public class StartTestMaths {
         
 
         
-        Calculer calculer = new Calculer(maths);
-        String expressionTest = "-2+3";
-        // int index = IutTools.searchOperator(expressionTest);
-        System.out.println("Nous testons -2 + 3 = " + calculer.run(expressionTest));
-        
+
 	}
 	
 }
