@@ -25,6 +25,13 @@ public class IutTools {
 		}
 
 		for (int i=0; i<expression.length();i++){
+			
+			if (i == 0){
+                if((expression.charAt(i) == '+') || (expression.charAt(i) == '*') || (expression.charAt(i) == '/')){
+                    throw new MathsExceptions("Premier caractère invalide");
+                }
+            }
+			
 			if(expression.charAt(i) == '('){
 				cpt++;
 				if (i==0){

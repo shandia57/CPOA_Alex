@@ -96,11 +96,13 @@ public class MySqlDao implements IDaoMathResult {
 
 	public MathResultat getLast() throws Exception{
 		MathResultat calcul =null;
-
+		System.out.println("test : getLast()");
+		
 		String sql = "SELECT * FROM operation WHERE id IN(select MAX(id) from operation;";
-
+		
+		System.out.println("try : getConnexion()");
 		Connection con = Connexion.getInstance().getConnexion();
-
+		System.out.println("test : con ");
 		PreparedStatement requete = con.prepareStatement(sql);
 		ResultSet res = requete.executeQuery();
 		if (res.next()){

@@ -70,13 +70,18 @@ public class MathResultat {
 	}
 
 	public MathResultat(String expression) throws MathsExceptions {
-		if (mathResult == null || mathResult.isEmpty()) {
+		
+		if (expression == null || expression.isEmpty()) {
+			
 			throw new MathsExceptions("l'expression est vide");
 		}
+		
 		tools = new IutTools();
 		this.operation = INCONNUE;
-		this.mathResult = tools.trimParenth(mathResult);
+		this.mathResult = tools.trimParenth(expression);
+		
 		switchLeftAndRightExpression();
+		
 		this.maths = new Maths();
 	}
 
@@ -103,7 +108,7 @@ public class MathResultat {
 	private void switchLeftAndRightExpression() throws MathsExceptions {
 		int pos = getPosition();
 		if (!INCONNUE.equals(operation)) {
-			if (!INCONNUE.equals(operation)){
+			if (pos<0 && MULTIPLICATION.equals(operation)){
 				leftExpression = new MathResultat(IutTools.getLeftExpression(this.mathResult, (-pos)+1));
 				rightExpression = new MathResultat(IutTools.getRightExpression(this.mathResult, pos));
 			} else {
